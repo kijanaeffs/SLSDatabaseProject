@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class MainFXApplication extends Application {
@@ -14,7 +17,7 @@ public class MainFXApplication extends Application {
     private Stage mainStage;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         mainStage = primaryStage;
         showLoginScreen(mainStage);
     }
@@ -36,6 +39,25 @@ public class MainFXApplication extends Application {
         mainStage.show();
     }
     public static void main(String[] args) {
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            con = DriverManager.getConnection("jdbc:mysql://academicmysql.cc.gatech.edu/cs4400_59",
+                    "cs4400_59",
+                    "aw3qI2fz");
+            if(!con.isClosed())
+                System.out.println("Successfully connected to " +
+                        "MySQL server using TCP/IP...");
+        } catch(Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+        } finally {
+            try {
+                if(con != null) {
+                    con.close();
+                }
+            } catch(SQLException e) {
+            }
+        }
         launch(args);
     }
 }
