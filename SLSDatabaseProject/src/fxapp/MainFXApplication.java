@@ -42,7 +42,7 @@ public class MainFXApplication extends Application {
         Connection con = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mysql://academicmysql.cc.gatech.edu/cs4400_59",
+            con = DriverManager.getConnection("jdbc:mysql://academicmysql.cc.gatech.edu/cs6310_team3_p3",
                     "cs4400_59",
                     "aw3qI2fz");
             if(!con.isClosed())
