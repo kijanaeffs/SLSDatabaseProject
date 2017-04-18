@@ -1,5 +1,6 @@
 package fxapp;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,26 +39,37 @@ public class MainFXApplication extends Application {
         mainStage.setScene(scene);
         mainStage.show();
     }
-    public static void main(String[] args) {
-        Connection con = null;
+    public static void main(String[] args) throws SQLException {
+        Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mysql://academicmysql.cc.gatech.edu/cs4400_59",
+            conn = DriverManager.getConnection("jdbc:mysql://academic-mysql.cc.gatech.edu/cs4400_59",
                     "cs4400_59",
                     "aw3qI2fz");
-            if(!con.isClosed())
+            if(!conn.isClosed())
                 System.out.println("Successfully connected to " +
                         "MySQL server using TCP/IP...");
         } catch(Exception e) {
             System.err.println("Exception: " + e.getMessage());
-        } finally {
-            try {
-                if(con != null) {
-                    con.close();
-                }
-            } catch(SQLException e) {
-            }
         }
+        /*
+        // mysql insert statement
+        Statement st = conn.createStatement();
+        st.executeUpdate("INSERT INTO USERS (EmailAddress, Username, Pass, UserType) "
+                +"VALUES ('keffs3@gatech.edu', 'keffs3', 'p@$$word', 'Admin')");
+        */
+        /*
+        // mysql delete statement
+        String query = "DELETE FROM USERS WHERE Username = ?";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, "Testing");
+
+        // execute the preparedstatement
+        preparedStmt.execute();
+        */
+        conn.close();
+
+
         launch(args);
     }
 }
