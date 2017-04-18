@@ -21,7 +21,7 @@ public class LoginScreenController {
 
 
 
-
+//test
     @FXML
     private void handleRegisterPressed() throws IOException {
         Stage stage = (Stage) registerButton.getScene().getWindow();
