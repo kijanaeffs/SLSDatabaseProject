@@ -32,7 +32,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <Text fill="#065fcc" onMouseClicked="#handleFilterPOIPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter/Search POI" underline="true" GridPane.rowIndex="1">
+            <Text fx:id="filterPOIText" fill="#065fcc" onMouseClicked="#handleFilterPOIPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter/Search POI" underline="true" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
@@ -40,7 +40,7 @@
                   <Insets bottom="100.0" left="350.0" />
                </GridPane.margin>
             </Text>
-            <Text fill="#065fcc" onMouseClicked="#handlePOIReportPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="POI Report" underline="true" GridPane.rowIndex="1">
+            <Text fx:id="reportText" fill="#065fcc" onMouseClicked="#handlePOIReportPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="POI Report" underline="true" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>

@@ -102,7 +102,7 @@
                   <Insets bottom="75.0" left="300.0" />
                </GridPane.margin>
             </ComboBox>
-            <TextField fx:id="zipBox" GridPane.rowIndex="1">
+            <TextField fx:id="zipField" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="300.0" right="500.0" />
                </GridPane.margin>
@@ -138,7 +138,7 @@
                   <Insets left="600.0" top="250.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="resetFilterPressed" layoutX="610.0" layoutY="437.0" mnemonicParsing="false" onAction="#handleResetFilterPressed" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #000000; -fx-border-color: #000000;" text="Reset Filter" textFill="#ffc66b" GridPane.rowIndex="1">
+            <Button fx:id="resetFilterButton" layoutX="610.0" layoutY="437.0" mnemonicParsing="false" onAction="#handleResetFilterPressed" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #000000; -fx-border-color: #000000;" text="Reset Filter" textFill="#ffc66b" GridPane.rowIndex="1">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>
