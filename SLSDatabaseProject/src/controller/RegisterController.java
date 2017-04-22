@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RegisterScreenController {
+public class RegisterController {
 
     @FXML
     private Button createButton;
