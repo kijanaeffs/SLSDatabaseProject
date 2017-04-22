@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddPOILocationScreen">
+   <children>
+      <GridPane style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <AnchorPane prefHeight="150.0" prefWidth="1000.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffc66b" height="150.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" width="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Text layoutX="310.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a new location">
+                     <font>
+                        <Font name="Arial" size="45.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <Text layoutX="210.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="100.0" left="100.0" />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="POI location name" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="250.0" left="100.0" />
+               </GridPane.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="100.0" top="50.0" />
+               </GridPane.margin>
+            </Text>
+            <Text layoutX="210.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zip Code" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="100.0" top="200.0" />
+               </GridPane.margin>
+            </Text>
+            <TextField fx:id="locationField" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="250.0" left="350.0" right="200.0" />
+               </GridPane.margin>
+            </TextField>
+            <ComboBox fx:id="cityBox" prefHeight="31.0" prefWidth="225.0" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="100.0" left="350.0" />
+               </GridPane.margin>
+            </ComboBox>
+            <ComboBox fx:id="stateBox" layoutX="360.0" layoutY="345.0" prefHeight="31.0" prefWidth="225.0" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="350.0" top="50.0" />
+               </GridPane.margin>
+            </ComboBox>
+            <TextField fx:id="zipBox" layoutX="360.0" layoutY="270.0" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="350.0" right="200.0" top="200.0" />
+               </GridPane.margin>
+            </TextField>
+            <Button fx:id="backButton" layoutX="760.0" layoutY="695.0" mnemonicParsing="false" onAction="#handleBackPressed" prefHeight="46.0" prefWidth="122.0" style="-fx-background-color: #000000; -fx-border-color: #000000;" text="Back" textFill="#ffc66b" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="300.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="submitButton" layoutX="310.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleSubmitPressed" prefHeight="46.0" prefWidth="122.0" style="-fx-background-color: #000000; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: #000000;" text="Submit" textFill="#ffc66b" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="600.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
