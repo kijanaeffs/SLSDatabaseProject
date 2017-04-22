@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminHomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminHomeController">
    <children>
       <GridPane style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -32,7 +32,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <Text fill="#065fcc" onMouseClicked="#handlePendingPointsPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="Pending data points" underline="true" GridPane.rowIndex="1">
+            <Text fx:id="dataPointsText" fill="#065fcc" onMouseClicked="#handlePendingPointsPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="Pending data points" underline="true" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>
@@ -40,7 +40,7 @@
                   <Insets bottom="100.0" left="318.0" />
                </GridPane.margin>
             </Text>
-            <Text fill="#065fcc" onMouseClicked="#handlePendingAccountsPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="Pending City Official Accounts" underline="true" GridPane.rowIndex="1">
+            <Text fx:id="cityOfficialsText" fill="#065fcc" onMouseClicked="#handlePendingAccountsPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="Pending City Official Accounts" underline="true" GridPane.rowIndex="1">
                <font>
                   <Font size="40.0" />
                </font>

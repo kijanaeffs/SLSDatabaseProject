@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddDataPointController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddDataPointController">
    <children>
       <GridPane style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -103,7 +103,7 @@
                   <Font name="Arial Bold" size="15.0" />
                </font>
             </Button>
-            <Text fill="#065fcc" onMouseClicked="#handleNewLocationPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="add a new location" underline="true" GridPane.rowIndex="1">
+            <Text fx:id="newLocationText" fill="#065fcc" onMouseClicked="#handleNewLocationPressed" strokeType="OUTSIDE" strokeWidth="0.0" text="add a new location" underline="true" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
