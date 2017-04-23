@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -72,7 +73,7 @@ public class POIDetailController {
         typeBox.setItems(dataTypes);
 
     }
-/*
+
     private int isInputValid() {
         Object fromDate = fromDateField.getValue();
         Object toDate = toDateField.getValue();
@@ -80,7 +81,7 @@ public class POIDetailController {
         String toData = toDataField.getText();
         String fromTime = fromTimeField.getText();
         String toTime = toTimeField.getText();
-
+        //test data
         if ((fromData.length() != 0 && toData.length() == 0) ||
                 (toData.length() != 0 && fromData.length() == 0)) {
             showDataValueError();
@@ -103,69 +104,118 @@ public class POIDetailController {
                 return 0;
             }
         }
+        //test time
+        int fromHours = 0;
+        int fromMinutes = 0;
+        int toHours = 0;
+        int toMinutes = 0;
         if ((fromTime.length() != 0 && toTime.length() == 0) ||
                 (toTime.length() != 0 && fromTime.length() == 0)) {
             showTimeError();
             return 0;
         }
-        if (fromTime.length() != 0 && toTIme.length() != 0) {
+        if (fromTime.length() != 0 && toTime.length() != 0) {
             if (!fromTime.contains(":") || !toTime.contains(":")) {
                 showTimeError();
                 return 0;
             }
             String delim = ":";
             String[] tokens = fromTime.split(delim);
-            if (tokens.length != 2) {
+            String [] tokens2 = toTime.split(delim);
+            if (tokens.length != 2 || tokens2.length != 2) {
                 showTimeError();
                 return 0;
             }
-            int hours;
-            int minutes;
             try {
-                hours = Integer.parseInt(tokens[0]);
-                minutes = Integer.parseInt(tokens[1]);
+                fromHours = Integer.parseInt(tokens[0]);
+                fromMinutes = Integer.parseInt(tokens[1]);
+                toHours = Integer.parseInt(tokens2[0]);
+                toMinutes = Integer.parseInt(tokens2[1]);
             } catch (NumberFormatException ne) {
                 showTimeError();
                 return 0;
             }
-            if (hours > 23 || hours < 0 || minutes > 59 || minutes < 0) {
+            if (fromHours > 23 || fromHours < 0 || fromMinutes > 59 || fromMinutes < 0) {
                 showTimeError();
                 return 0;
             }
+            if (toHours > 23 || toHours < 0 || toMinutes > 59 || toMinutes < 0) {
+                showTimeError();
+                return 0;
+            }
+
         }
+        //test date
         if ((fromDate != null && toDate == null) ||
                 (toDate != null && fromDate == null)) {
             showDateError();
             return 0;
         }
+        if (((fromDate != null && toDate != null) && toTime.length() == 0) ||
+                ((fromDate != null && toDate != null) && fromTime.length() == 0) ||
+                ((fromTime.length() != 0 && toTime.length() != 0) && toDate == null) ||
+                ((fromTime.length() != 0 && toTime.length() != 0) && fromDate == null)) {
+            showDateTimeError();
+            return 0;
+        }
         if (fromDate != null && toDate != null) {
+            /*String delim = ":";
+            String[] tokens1 = fromTime.split(delim);
+            String [] tokens2 = toTime.split(delim);
+            fromHours = Integer.parseInt(tokens1[0]);
+            fromMinutes = Integer.parseInt(tokens1[1]);
+            toHours = Integer.parseInt(tokens2[0]);
+            toMinutes = Integer.parseInt(tokens2[1]);*/
             String delim = "-";
             String[] tokens = fromDate.toString().split(delim);
             int year = Integer.parseInt(tokens[0]);
             int month = Integer.parseInt(tokens[1]);
             int day = Integer.parseInt(tokens[2]);
             Calendar fromCal = Calendar.getInstance();
-            fromCal.set(year, month - 2 + 1, day, 0, 0, 0);
+            fromCal.set(year, month - 2 + 1, day, fromHours, fromMinutes, 0);
             tokens = toDate.toString().split(delim);
             year = Integer.parseInt(tokens[0]);
             month = Integer.parseInt(tokens[1]);
             day = Integer.parseInt(tokens[2]);
             Calendar toCal = Calendar.getInstance();
-            toCal.set(year, month - 1, day, 0, 0, 0);
+            toCal.set(year, month - 1, day, toHours, toMinutes, 0);
             if (toCal.before(fromCal)) {
-                showDateError();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Date Time Error");
+                alert.setHeaderText("From Date After To Date");
+                alert.setContentText("From date and time must be before to " +
+                                "date and time.");
+                alert.showAndWait();
                 return 0;
             }
         }
         return 1;
     }
-*/
+
     private void showDateError() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Invalid Date Ranges");
         alert.setHeaderText("Date ranges specified are invalid");
         alert.setContentText("To filter by date, you must have a" +
                 " valid from date and a valid to date.");
+        alert.showAndWait();
+    }
+
+    private void showTimeError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Time Ranges");
+        alert.setHeaderText("Time ranges specified are invalid");
+        alert.setContentText("To filter by time, you must have a" +
+                " valid from time and a valid to time.");
+        alert.showAndWait();
+    }
+
+    private void showDateTimeError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Date and Time Ranges");
+        alert.setHeaderText("Time and Date ranges specified are invalid");
+        alert.setContentText("To filter by time and date, you must fill" +
+        " out all date and time fields.");
         alert.showAndWait();
     }
 
@@ -180,9 +230,9 @@ public class POIDetailController {
 
     @FXML
     private void handleApplyFilterPressed() throws IOException {
-        //if (isInputValid() == 1) {
+        if (isInputValid() == 1) {
 
-        //}
+        }
         /*Stage stage = (Stage) applyFilterButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
                 .getResource("../view/LoginScreen.fxml"));
