@@ -1,5 +1,8 @@
 package controller;
 
+import fxapp.MainFXApplication;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kijana on 4/22/2017.
@@ -48,6 +54,22 @@ public class POIDetailController {
     @FXML
     private Button flagButton;
 
+    private Connection conn = MainFXApplication.getConnection();
+
+    @FXML
+    private void initialize() throws SQLException {
+        Statement statement = conn.createStatement();
+        String queryD = "SELECT DataType FROM DATATYPE ORDER BY DataType";
+        PreparedStatement preparedStmt = conn.prepareStatement(queryD);
+        ResultSet rsD = preparedStmt.executeQuery();
+        List<String> dataTypeList = new ArrayList<String>();
+        while(rsD.next()) {
+            dataTypeList.add(rsD.getString("DataType"));
+        }
+        ObservableList dataTypes = FXCollections.observableList(dataTypeList);
+        typeBox.setItems(dataTypes);
+
+    }
 
     @FXML
     private void handleApplyFilterPressed() throws IOException {
