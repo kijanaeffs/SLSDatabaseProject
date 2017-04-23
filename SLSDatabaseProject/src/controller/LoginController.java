@@ -102,11 +102,7 @@ public class LoginController {
     @FXML
     private void handleLoginPressed() throws IOException, SQLException {
         if (isInputValid() == 0) {
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass()
-                    .getResource("../view/LoginScreen.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
+           passwordField.setText("");
         } else {
             String userType = getUserType();
             Stage stage = (Stage) loginButton.getScene().getWindow();
