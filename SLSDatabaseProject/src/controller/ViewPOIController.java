@@ -343,7 +343,7 @@ public class ViewPOIController {
         Stage stage = (Stage) viewButton.getScene().getWindow();
         Parent root = loader.load();
         loader.<POIDetailController>getController()
-                .setup(location, flag);
+                .setUp(location, flag);
         stage.setScene(new Scene(root));
         stage.show();
     }
