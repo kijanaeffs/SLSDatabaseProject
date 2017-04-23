@@ -61,7 +61,6 @@ public class PendingDataPointController {
         String dt;
         String value;
         String type;
-        String acc;
         ObservableList<Row> list = FXCollections.observableArrayList();
         while (rs.next()) {
             location = rs.getString("LocationName");
@@ -96,7 +95,6 @@ public class PendingDataPointController {
         String loc;
         String value;
         String type;
-        String acc;
 
         public String getDt() {
             return dt;
@@ -109,9 +107,6 @@ public class PendingDataPointController {
         }
         public String getType() {
             return type;
-        }
-        public String getAcc() {
-            return acc;
         }
 
         public void setDt(String dt) {
@@ -130,27 +125,48 @@ public class PendingDataPointController {
             this.type = type;
         }
 
-        public void setAcc(String acc) {
-            this.acc = acc;
+    }
+
+    @FXML
+    private void handleAcceptPressed() throws IOException, SQLException {
+        Row selected = table.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
         }
+        String location = selected.getLoc();
+        String dt = selected.getDt();
+        String query = "UPDATE DATAPOINT SET Accepted = TRUE WHERE " +
+                "LocationName = ? AND DT = ?";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, location);
+        preparedStmt.setString(2, dt);
+        preparedStmt.execute();
+        Stage stage = (Stage) acceptButton.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass()
+                .getResource("../view/PendingDataPointScreen.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
-    private void handleAcceptPressed() throws IOException {
-        /*Stage stage = (Stage) acceptButton.getScene().getWindow();
+    private void handleRejectPressed() throws IOException, SQLException {
+        Row selected = table.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+        String location = selected.getLoc();
+        String dt = selected.getDt();
+        String query = "UPDATE DATAPOINT SET Accepted = FALSE WHERE " +
+                "LocationName = ? AND DT = ?";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, location);
+        preparedStmt.setString(2, dt);
+        preparedStmt.execute();
+        Stage stage = (Stage) rejectButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
+                .getResource("../view/PendingDataPointScreen.fxml"));
         stage.setScene(new Scene(root));
-        stage.show();*/
-    }
-
-    @FXML
-    private void handleRejectPressed() throws IOException {
-        /*Stage stage = (Stage) rejectButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();*/
+        stage.show();
     }
 
     @FXML
