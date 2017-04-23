@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -76,6 +77,71 @@ public class ViewPOIController {
         locationBox.setItems(locations);
     }
 
+    private int isInputValid() {
+        String zip = zipField.getText();
+        Object fromDate = fromDateField.getValue();
+        Object toDate = toDateField.getValue();
+        if (zip.length() != 0) {
+            if (zip.length() != 5) {
+                showZipError();
+                return 0;
+            }
+            int zipInt;
+            try {
+                zipInt = Integer.parseInt(zip);
+            } catch (NumberFormatException ne) {
+                showZipError();
+                return 0;
+            }
+            if (zipInt < 0) {
+                showZipError();
+                return 0;
+            }
+        }
+        if ((fromDate != null && toDate == null) ||
+                (toDate != null && fromDate == null)) {
+            showDateError();
+            return 0;
+        }
+        if (fromDate != null && toDate != null) {
+            String delim = "-";
+            String[] tokens = fromDate.toString().split(delim);
+            int year = Integer.parseInt(tokens[0]);
+            int month = Integer.parseInt(tokens[1]);
+            int day = Integer.parseInt(tokens[2]);
+            Calendar fromCal = Calendar.getInstance();
+            fromCal.set(year, month - 1, day, 0, 0, 0);
+            tokens = toDate.toString().split(delim);
+            year = Integer.parseInt(tokens[0]);
+            month = Integer.parseInt(tokens[1]);
+            day = Integer.parseInt(tokens[2]);
+            Calendar toCal = Calendar.getInstance();
+            toCal.set(year, month - 1, day, 0, 0, 0);
+            if (toCal.before(fromCal)) {
+                showDateError();
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    private void showDateError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Date Range");
+        alert.setHeaderText("Date ranges specified are invalid");
+        alert.setContentText("To filter by date, you must have a" +
+        " valid from date and a valid to date.");
+        alert.showAndWait();
+    }
+
+    private void showZipError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Zip Code");
+        alert.setHeaderText("Zip code field is invalid");
+        alert.setContentText("Zip code must be valid to filter by zip.");
+        alert.showAndWait();
+    }
+
     /*@FXML
     private void handleLocationPicked() throws SQLException {
         String locSel = locationBox.getValue().toString();
@@ -120,6 +186,9 @@ public class ViewPOIController {
 
     @FXML
     private void handleApplyFilterPressed() throws IOException {
+        if (isInputValid() == 1) {
+
+        }
         /*Stage stage = (Stage) applyFilterButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
                 .getResource("../view/LoginScreen.fxml"));
@@ -129,20 +198,20 @@ public class ViewPOIController {
 
     @FXML
     private void handleResetFilterPressed() throws IOException {
-        /*Stage stage = (Stage) resetFilterButton.getScene().getWindow();
+        Stage stage = (Stage) resetFilterButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
+                .getResource("../view/ViewPOIScreen.fxml"));
         stage.setScene(new Scene(root));
-        stage.show();*/
+        stage.show();
     }
 
     @FXML
     private void handleViewPressed() throws IOException {
-        /*Stage stage = (Stage) flagButton.getScene().getWindow();
+        Stage stage = (Stage) viewButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
+                .getResource("../view/POIDetailScreen.fxml"));
         stage.setScene(new Scene(root));
-        stage.show();*/
+        stage.show();
     }
 
     @FXML

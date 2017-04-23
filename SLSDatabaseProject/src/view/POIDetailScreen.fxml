@@ -70,7 +70,7 @@
                   <Insets left="100.0" top="50.0" />
                </GridPane.margin>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time &amp; Date" GridPane.rowIndex="1">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date &amp; Time" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -109,19 +109,29 @@
                   <Insets left="625.0" right="175.0" top="50.0" />
                </GridPane.margin>
             </TextField>
-            <DatePicker fx:id="fromDateField" prefHeight="31.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <DatePicker fx:id="fromDateField" prefHeight="31.0" prefWidth="150.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="300.0" top="125.0" />
                </GridPane.margin>
             </DatePicker>
-            <DatePicker fx:id="toDateField" prefHeight="31.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <TextField fx:id="fromTimeField" promptText="13:00" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="460.0" right="450.0" top="125.0" />
+               </GridPane.margin>
+            </TextField>
+            <DatePicker fx:id="toDateField" prefHeight="31.0" prefWidth="150.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="625.0" top="125.0" />
                </GridPane.margin>
             </DatePicker>
+            <TextField fx:id="toTimeField" layoutX="470.0" layoutY="347.0" promptText="13:01" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="800.0" right="110.0" top="125.0" />
+               </GridPane.margin>
+            </TextField>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="to" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets left="550.0" top="125.0" />
+                  <Insets left="570.0" top="125.0" />
                </GridPane.margin>
                <font>
                   <Font size="20.0" />

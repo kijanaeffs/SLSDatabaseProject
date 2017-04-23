@@ -133,7 +133,7 @@ public class AddDataPointController {
 
     }
 
-    private void addDataPoint() throws SQLException {
+    private int addDataPoint() throws SQLException {
         Object location = locationCombo.getValue();
         Object dateObject = dateField.getValue();
         String time = timeField.getText();
@@ -162,7 +162,22 @@ public class AddDataPointController {
         preparedStmt.setString(2, location.toString());
         preparedStmt.setInt(3, dataValue);
         preparedStmt.setString(4, dataType.toString());
-        preparedStmt.execute();
+        try {
+            preparedStmt.execute();
+        } catch (Exception e) {
+            showDuplicateError();
+            return 0;
+        }
+        return 1;
+    }
+
+    private void showDuplicateError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Data Point");
+        alert.setHeaderText("Duplicate Entry");
+        alert.setContentText("A data point has already been submitted" +
+        " for this location for the given time and date.");
+        alert.showAndWait();
     }
 
     private void showTimeError() {
@@ -192,8 +207,7 @@ public class AddDataPointController {
 
     @FXML
     private void handleSubmitPressed() throws IOException, SQLException {
-        if (isInputValid() == 1) {
-            addDataPoint();
+        if (isInputValid() == 1 && addDataPoint() == 1) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Data Point Submission Successful");
             alert.setHeaderText("Thank you!");

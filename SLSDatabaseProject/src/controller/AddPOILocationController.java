@@ -54,6 +54,77 @@ public class AddPOILocationController {
         stateCombo.setItems(states);
     }
 
+    private int isInputValid() throws SQLException {
+        String location = locationField.getText();
+        Object state = stateCombo.getValue();
+        Object city = cityCombo.getValue();
+        String zip = zipField.getText();
+        if (location.length() == 0 || state == null ||
+                city == null || zip.length() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Incomplete Entries");
+            alert.setHeaderText("All fields must be completed");
+            alert.setContentText("Please complete all fields.");
+            alert.showAndWait();
+            return 0;
+        }
+        if (zip.length() != 5) {
+            showZipError();
+            return 0;
+        }
+        int zipInt;
+        try {
+            zipInt = Integer.parseInt(zip);
+        } catch (NumberFormatException ne) {
+            showZipError();
+            return 0;
+        }
+        if (zipInt < 0) {
+            showZipError();
+            return 0;
+        }
+
+        String query = "SELECT EXISTS(SELECT LocationName FROM POI WHERE" +
+                " LocationName = ?)";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, location);
+        ResultSet rs = preparedStmt.executeQuery();
+        rs.next();
+        if (rs.getInt(1) == 1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("POI Location Duplicate");
+            alert.setHeaderText("This POI Location name already exists");
+            alert.setContentText("Please enter a unique POI location.");
+            alert.showAndWait();
+            return 0;
+        }
+        return 1;
+    }
+
+    private void addPOILocation() throws SQLException {
+        String location = locationField.getText();
+        Object state = stateCombo.getValue();
+        Object city = cityCombo.getValue();
+        String zip = zipField.getText();
+        int zipInt = Integer.parseInt(zip);
+        String query = "INSERT INTO POI(LocationName, City, State, ZipCode)" +
+                " VALUES (?, ?, ?, ?)";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, location);
+        preparedStmt.setString(2, city.toString());
+        preparedStmt.setString(3, state.toString());
+        preparedStmt.setInt(4, zipInt);
+        preparedStmt.execute();
+    }
+
+    private void showZipError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Zip Code");
+        alert.setHeaderText("Zip code field must be a valid zip");
+        alert.setContentText("Please enter a valid zip code.");
+        alert.showAndWait();
+    }
+
     @FXML
     private void handleStatePicked() throws SQLException {
         String selState = stateCombo.getValue().toString();
@@ -91,11 +162,19 @@ public class AddPOILocationController {
     }
 
     @FXML
-    private void handleSubmitPressed() throws IOException {
-        Stage stage = (Stage) submitButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/AddDataPointScreen.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void handleSubmitPressed() throws IOException, SQLException {
+        if (isInputValid() == 1) {
+            addPOILocation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("POI Location Submission Successful");
+            alert.setHeaderText("Thank you!");
+            alert.setContentText("Your submission was successful.");
+            alert.showAndWait();
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/AddPOILocationScreen.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 }

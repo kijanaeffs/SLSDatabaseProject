@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.POIReportController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.POIReportController">
    <children>
       <GridPane style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -36,19 +36,19 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <TableView fx:id="table" layoutX="8.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="table" layoutX="8.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="locCol" prefWidth="200.0" text="POI Location" />
-                      <TableColumn fx:id="cityCol" minWidth="8.0" prefWidth="150.0" text="City" />
-                        <TableColumn fx:id="stateCol" prefWidth="150.0" text="State" />
+                      <TableColumn fx:id="locCol" prefWidth="231.0" text="POI Location" />
+                      <TableColumn fx:id="cityCol" minWidth="8.0" prefWidth="129.0" text="City" />
+                        <TableColumn fx:id="stateCol" prefWidth="140.0" text="State" />
                         <TableColumn fx:id="moldMinCol" prefWidth="90.0" text="Mold Min" />
                         <TableColumn fx:id="moldAvgCol" prefWidth="90.0" text="Mold Avg" />
                         <TableColumn fx:id="moldMaxCol" prefWidth="90.0" text="Mold Max" />
                         <TableColumn fx:id="aqMinCol" prefWidth="90.0" text="AQ Min" />
                         <TableColumn fx:id="aqAvgCol" prefWidth="90.0" text="AQ Avg" />
                         <TableColumn fx:id="aqMaxCol" prefWidth="90.0" text="AQ Max" />
-                        <TableColumn fx:id="pointsCol" prefWidth="125.0" text="# of data points" />
-                        <TableColumn fx:id="flagCol" prefWidth="114.0" text="Flagged?" />
+                        <TableColumn fx:id="pointsCol" prefWidth="130.0" text="# of data points" />
+                        <TableColumn fx:id="flagCol" prefWidth="89.0" text="Flagged?" />
                     </columns>
                   </TableView>
                </children>
