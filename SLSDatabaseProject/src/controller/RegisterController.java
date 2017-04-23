@@ -166,7 +166,7 @@ public class RegisterController {
         preparedStmt.execute();
 
         if (userType.toString().equals("Official")) {
-            query = "INSERT INTO CITYOFFICIAL VALUES(?, ?, 0, ?, ?)";
+            query = "INSERT INTO CITYOFFICIAL VALUES(?, ?, NULL, ?, ?)";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, username);
             preparedStmt.setString(2, title);

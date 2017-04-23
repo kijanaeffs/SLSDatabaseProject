@@ -156,7 +156,7 @@ public class AddDataPointController {
         Date date = cal.getTime();
         Object sqlDate = new java.sql.Timestamp(date.getTime());
 
-        String query = "INSERT INTO DATAPOINT VALUES (?, ?, FALSE, ?, ?)";
+        String query = "INSERT INTO DATAPOINT VALUES (?, ?, NULL, ?, ?)";
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         preparedStmt.setObject(1, sqlDate);
         preparedStmt.setString(2, location.toString());

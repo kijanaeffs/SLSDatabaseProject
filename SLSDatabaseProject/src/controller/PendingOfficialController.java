@@ -109,21 +109,41 @@ public class PendingOfficialController {
     }
 
     @FXML
-    private void handleAcceptPressed() throws IOException {
-        /*Stage stage = (Stage) acceptButton.getScene().getWindow();
+    private void handleAcceptPressed() throws IOException, SQLException {
+        Row selected = table.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+        String username = selected.user;
+        String query = "UPDATE CITYOFFICIAL SET Approved = TRUE " +
+                "WHERE USERNAME = ?";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, username);
+        preparedStmt.execute();
+        Stage stage = (Stage) acceptButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
+                .getResource("../view/PendingOfficialScreen.fxml"));
         stage.setScene(new Scene(root));
-        stage.show();*/
+        stage.show();
     }
 
     @FXML
-    private void handleRejectPressed() throws IOException {
-        /*Stage stage = (Stage) rejectButton.getScene().getWindow();
+    private void handleRejectPressed() throws IOException, SQLException {
+        Row selected = table.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+        String username = selected.user;
+        String query = "UPDATE CITYOFFICIAL SET Approved = FALSE " +
+                "WHERE USERNAME = ?";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, username);
+        preparedStmt.execute();
+        Stage stage = (Stage) acceptButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
+                .getResource("../view/PendingOfficialScreen.fxml"));
         stage.setScene(new Scene(root));
-        stage.show();*/
+        stage.show();
     }
 
     @FXML
