@@ -16,22 +16,22 @@ import java.io.IOException;
  */
 public class AddPOILocationController {
     @FXML
-    TextField locationField;
+    private TextField locationField;
 
     @FXML
-    ComboBox cityBox;
+    private ComboBox cityBox;
 
     @FXML
-    ComboBox stateBox;
+    private ComboBox stateBox;
 
     @FXML
-    TextField zipField;
+    private TextField zipField;
 
     @FXML
-    Button backButton;
+    private Button backButton;
 
     @FXML
-    Button submitButton;
+    private Button submitButton;
 
 
     @FXML

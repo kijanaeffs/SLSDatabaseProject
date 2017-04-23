@@ -14,13 +14,13 @@ import java.io.IOException;
  */
 public class PendingDataPointController {
     @FXML
-    Button backButton;
+    private Button backButton;
 
     @FXML
-    Button rejectButton;
+    private Button rejectButton;
 
     @FXML
-    Button acceptButton;
+    private Button acceptButton;
 
     @FXML
     private void handleAcceptPressed() throws IOException {

@@ -15,13 +15,13 @@ import java.io.IOException;
  */
 public class OfficialHomeController {
     @FXML
-    Button logoutButton;
+    private Button logoutButton;
 
     @FXML
-    Text filterPOIText;
+    private Text filterPOIText;
 
     @FXML
-    Text reportText;
+    private Text reportText;
 
 
     @FXML

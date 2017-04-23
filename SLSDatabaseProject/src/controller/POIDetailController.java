@@ -16,37 +16,37 @@ import java.io.IOException;
  */
 public class POIDetailController {
    @FXML
-   TextField locationField;
+   private TextField locationField;
 
     @FXML
-    TextField flaggedField;
+    private TextField flaggedField;
 
     @FXML
-    ComboBox typeBox;
+    private ComboBox typeBox;
 
     @FXML
-    TextField fromDataField;
+    private TextField fromDataField;
 
     @FXML
-    TextField toDataField;
+    private TextField toDataField;
 
     @FXML
-    TextField fromDateField;
+    private TextField fromDateField;
 
     @FXML
-    TextField toDateField;
+    private TextField toDateField;
 
     @FXML
-    Button applyFilterButton;
+    private Button applyFilterButton;
 
     @FXML
-    Button resetFilterButton;
+    private Button resetFilterButton;
 
     @FXML
-    Button backButton;
+    private Button backButton;
 
     @FXML
-    Button flagButton;
+    private Button flagButton;
 
 
     @FXML

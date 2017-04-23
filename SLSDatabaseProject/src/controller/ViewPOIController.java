@@ -14,37 +14,37 @@ import java.io.IOException;
  */
 public class ViewPOIController {
     @FXML
-    ComboBox locationBox;
+    private ComboBox locationBox;
 
     @FXML
-    ComboBox cityBox;
+    private ComboBox cityBox;
 
     @FXML
-    ComboBox stateBox;
+    private ComboBox stateBox;
 
     @FXML
-    TextField zipField;
+    private TextField zipField;
 
     @FXML
-    CheckBox flaggedCheckBox;
+    private CheckBox flaggedCheckBox;
 
     @FXML
-    DatePicker fromDateField;
+    private DatePicker fromDateField;
 
     @FXML
-    DatePicker toDateField;
+    private DatePicker toDateField;
 
     @FXML
-    Button applyFilterButton;
+    private Button applyFilterButton;
 
     @FXML
-    Button resetFilterButton;
+    private Button resetFilterButton;
 
     @FXML
-    Button backButton;
+    private Button backButton;
 
     @FXML
-    Button viewButton;
+    private Button viewButton;
 
     @FXML
     private void handleApplyFilterPressed() throws IOException {
