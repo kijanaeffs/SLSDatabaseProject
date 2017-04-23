@@ -77,7 +77,7 @@ public class ViewPOIController {
     private void handleBackPressed() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/ViewPOIScreen.fxml"));
+                .getResource("../view/OfficialHomeScreen.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
     }
