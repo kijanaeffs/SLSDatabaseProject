@@ -68,7 +68,7 @@ public class ViewPOIController {
         String queryL = "SELECT LocationName FROM POI ORDER BY LocationName";
         PreparedStatement preparedStmt2 = conn.prepareStatement(queryL);
         ResultSet rsL = preparedStmt2.executeQuery();
-        List<String> locationList = new ArrayList<>();
+        List<String> locationList = new ArrayList<String>();
         while(rsL.next()) {
             locationList.add(rsL.getString("LocationName"));
         }
