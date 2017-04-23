@@ -335,8 +335,8 @@ public class ViewPOIController {
         if (selected == null) {
             return;
         }
-        selected.getLocation();
-        selected.getFlag();
+        String location = selected.getLocation();
+        String flag = selected.getFlag();
 
         FXMLLoader loader = new FXMLLoader(getClass()
                 .getResource("../view/POIDetailScreen.fxml"));
