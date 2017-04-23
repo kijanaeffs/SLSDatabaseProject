@@ -11,10 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -24,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AddDataPointController {
@@ -45,6 +44,9 @@ public class AddDataPointController {
 
     @FXML
     private DatePicker dateField;
+
+    @FXML
+    private TextField timeField;
 
     @FXML
     private Text newLocationText;
@@ -73,6 +75,112 @@ public class AddDataPointController {
         ObservableList locations = FXCollections.observableList(locationList);
         locationCombo.setItems(locations);
     }
+
+    private int isInputValid() {
+        Object location = locationCombo.getValue();
+        Object date = dateField.getValue();
+        String time = timeField.getText();
+        Object dataType = dataTypeCombo.getValue();
+        String dataValueString = dataValueField.getText();
+        //test for empty values
+        if (location == null || date == null || time.length() == 0 ||
+                dataType == null || dataValueString.length() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Incomplete Fields");
+            alert.setHeaderText("Please fill out all fields");
+            alert.setContentText("Required fields cannot be left blank.");
+            alert.showAndWait();
+            return 0;
+        }
+        //test data value
+        int dataValue;
+        try {
+            dataValue = Integer.parseInt(dataValueString);
+
+        } catch (NumberFormatException ne) {
+            showDataValueError();
+            return 0;
+        }
+        if (dataValue < 0) {
+            showDataValueError();
+            return 0;
+        }
+        //test time
+        if (!time.contains(":")) {
+            showTimeError();
+            return 0;
+        }
+        String delim = ":";
+        String[] tokens = time.split(delim);
+        if (tokens.length != 2) {
+            showTimeError();
+            return 0;
+        }
+        int hours;
+        int minutes;
+        try {
+            hours = Integer.parseInt(tokens[0]);
+            minutes = Integer.parseInt(tokens[1]);
+        } catch (NumberFormatException ne) {
+            showTimeError();
+            return 0;
+        }
+        if (hours > 23 || hours < 0 || minutes > 59 || minutes < 0) {
+            showTimeError();
+            return 0;
+        }
+        return 1;
+
+    }
+
+    private void addDataPoint() throws SQLException {
+        Object location = locationCombo.getValue();
+        Object dateObject = dateField.getValue();
+        String time = timeField.getText();
+        Object dataType = dataTypeCombo.getValue();
+        String dataValueString = dataValueField.getText();
+
+        int dataValue = Integer.parseInt(dataValueString);
+        String delim = ":";
+        String[] tokens = time.split(delim);
+        int hour = Integer.parseInt(tokens[0]);
+        int minute = Integer.parseInt(tokens[1]);
+        delim = "-";
+        tokens = dateObject.toString().split(delim);
+        int year = Integer.parseInt(tokens[0]);
+        int month = Integer.parseInt(tokens[1]);
+        int day = Integer.parseInt(tokens[2]);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month - 1, day, hour, minute, 0);
+        Date date = cal.getTime();
+        Object sqlDate = new java.sql.Timestamp(date.getTime());
+
+        String query = "INSERT INTO DATAPOINT VALUES (?, ?, FALSE, ?, ?)";
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setObject(1, sqlDate);
+        preparedStmt.setString(2, location.toString());
+        preparedStmt.setInt(3, dataValue);
+        preparedStmt.setString(4, dataType.toString());
+        preparedStmt.execute();
+    }
+
+    private void showTimeError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Time Field");
+        alert.setHeaderText("Time is invalid");
+        alert.setContentText("Please insert a valid time.");
+        alert.showAndWait();
+    }
+
+    private void showDataValueError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Data Value Field");
+        alert.setHeaderText("Please correct data value.");
+        alert.setContentText("Data value must be a positive integer.");
+        alert.showAndWait();
+    }
+
     @FXML
     private void handleLogoutPressed() throws IOException {
         Stage stage = (Stage) logoutButton.getScene().getWindow();
@@ -83,12 +191,20 @@ public class AddDataPointController {
     }
 
     @FXML
-    private void handleSubmitPressed() throws IOException {
-        Stage stage = (Stage) submitButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/AddDataPointScreen.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void handleSubmitPressed() throws IOException, SQLException {
+        if (isInputValid() == 1) {
+            addDataPoint();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Data Point Submission Successful");
+            alert.setHeaderText("Thank you!");
+            alert.setContentText("Your submission was successful.");
+            alert.showAndWait();
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass()
+                    .getResource("../view/AddDataPointScreen.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     @FXML

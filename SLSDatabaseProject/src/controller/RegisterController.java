@@ -65,7 +65,7 @@ public class RegisterController {
         List<String> userTypeList = new ArrayList<String>();
         String delims = "','";
         String[] tokens = result.split(delims);
-        for (int i = 0; i < tokens.length; i++ ) {
+        for (int i = 1; i < tokens.length; i++ ) {
             userTypeList.add(tokens[i]);
         }
         ObservableList userTypes = FXCollections.observableList(userTypeList);

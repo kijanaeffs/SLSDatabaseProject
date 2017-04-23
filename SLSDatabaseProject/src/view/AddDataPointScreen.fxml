@@ -35,7 +35,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <Text layoutX="210.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time and date of data reading" GridPane.rowIndex="1">
+            <Text layoutX="210.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date and time of data reading" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -77,6 +77,11 @@
                   <Insets bottom="100.0" left="400.0" />
                </GridPane.margin>
             </DatePicker>
+            <TextField fx:id="timeField" layoutX="410.0" layoutY="495.0" promptText="13:00" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="100.0" left="675.0" right="225.0" />
+               </GridPane.margin>
+            </TextField>
             <ComboBox fx:id="dataTypeCombo" prefWidth="225.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="400.0" top="50.0" />
@@ -84,7 +89,7 @@
             </ComboBox>
             <TextField fx:id="dataValueField" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets left="400.0" right="200.0" top="200.0" />
+                  <Insets left="400.0" right="375.0" top="200.0" />
                </GridPane.margin>
             </TextField>
             <Button fx:id="logoutButton" layoutX="760.0" layoutY="695.0" mnemonicParsing="false" onAction="#handleLogoutPressed" prefHeight="46.0" prefWidth="122.0" style="-fx-background-color: #000000; -fx-border-color: #000000;" text="Logout" textFill="#ffc66b" GridPane.rowIndex="2">
