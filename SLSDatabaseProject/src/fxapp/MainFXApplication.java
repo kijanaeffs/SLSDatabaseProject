@@ -16,6 +16,7 @@ import java.sql.SQLException;
 public class MainFXApplication extends Application {
 
     private Stage mainStage;
+    private static Connection conn = initConnection();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -40,7 +41,7 @@ public class MainFXApplication extends Application {
         mainStage.show();
     }
     public static void main(String[] args) throws SQLException {
-        Connection conn = getConnection();
+
 
         /*
         // mysql insert statement
@@ -65,7 +66,7 @@ public class MainFXApplication extends Application {
         System.out.print("Successfully closed connection to MySQL server.");
     }
 
-    private static Connection getConnection() {
+    private static Connection initConnection() {
         Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -78,6 +79,10 @@ public class MainFXApplication extends Application {
         } catch(Exception e) {
             System.err.println("Exception: " + e.getMessage());
         }
+        return conn;
+    }
+
+    public static Connection getConnection() {
         return conn;
     }
 }
