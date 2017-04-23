@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
    <children>
       <GridPane style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -64,12 +64,12 @@
                   <Insets left="450.0" />
                </GridPane.margin>
             </ComboBox>
-            <ComboBox fx:id="cityCombo" layoutX="460.0" layoutY="395.0" prefWidth="225.0" GridPane.rowIndex="1">
+            <ComboBox fx:id="stateCombo" layoutX="460.0" layoutY="395.0" onAction="#handleStatePicked" prefWidth="225.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="450.0" top="200.0" />
                </GridPane.margin>
             </ComboBox>
-            <ComboBox fx:id="stateCombo" layoutX="460.0" layoutY="495.0" prefWidth="225.0" GridPane.rowIndex="1">
+            <ComboBox fx:id="cityCombo" layoutX="460.0" layoutY="495.0" onMouseClicked="#handleCityClicked" prefWidth="225.0" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="450.0" top="300.0" />
                </GridPane.margin>
@@ -135,7 +135,7 @@
                   <Insets left="200.0" />
                </GridPane.margin>
             </Text>
-            <Text layoutX="210.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" GridPane.rowIndex="1">
+            <Text layoutX="210.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -143,7 +143,7 @@
                   <Insets left="200.0" top="200.0" />
                </GridPane.margin>
             </Text>
-            <Text layoutX="210.0" layoutY="517.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State" GridPane.rowIndex="1">
+            <Text layoutX="210.0" layoutY="517.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
