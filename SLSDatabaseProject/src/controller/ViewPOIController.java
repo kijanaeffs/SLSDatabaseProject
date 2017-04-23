@@ -1,6 +1,7 @@
 package controller;
 
 import fxapp.MainFXApplication;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,8 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 
+import javax.swing.table.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ public class ViewPOIController {
     private TextField zipField;
 
     @FXML
-    private CheckBox flaggedCheckBox;
+    private ComboBox flagCombo;
 
     @FXML
     private DatePicker fromDateField;
@@ -52,6 +55,27 @@ public class ViewPOIController {
 
     @FXML
     private Button viewButton;
+
+    @FXML
+    private TableView<Row> table;
+
+    @FXML
+    private TableColumn<Row,String> locationCol;
+
+    @FXML
+    private TableColumn<Row, String> cityCol;
+
+    @FXML
+    private TableColumn<Row, String> stateCol;
+
+    @FXML
+    private TableColumn<Row, String> zipCol;
+
+    @FXML
+    private TableColumn<Row, String> flagCol;
+
+    @FXML
+    private TableColumn<Row, String> dateCol;
 
     private Connection conn = MainFXApplication.getConnection();
 
@@ -75,6 +99,9 @@ public class ViewPOIController {
         }
         ObservableList locations = FXCollections.observableList(locationList);
         locationBox.setItems(locations);
+
+        flagCombo.getItems().addAll("None Selected","Yes", "No");
+        flagCombo.setValue("None Selected");
     }
 
     private int isInputValid() {
@@ -185,15 +212,94 @@ public class ViewPOIController {
 
 
     @FXML
-    private void handleApplyFilterPressed() throws IOException {
+    private void handleApplyFilterPressed() throws SQLException {
         if (isInputValid() == 1) {
 
+            String location = locationBox.getValue();
+            String state = stateBox.getValue();
+            String city = cityBox.getValue();
+            String zip = zipField.getText();
+            String flag = flagCombo.getValue().toString();
+            /*if (flag.equals("None Selected")) {
+                flag = null;
+            }*/
+            Object fromDate = fromDateField.getValue();
+            Object toDate = toDateField.getValue();
+            String query = "SELECT LocationName, City, State, ZipCode, Flag, " +
+                    "DateFlagged FROM POI";
+            if (location != null || city != null || state != null || zip
+                    .length() != 0 || !flag.equals("None Selected")) {
+                query+= " WHERE";
+                if (location != null) {
+                    query += " LocationName = '" + location + "'";
+                }
+                if (state != null) {
+                    if (location != null) {
+                        query+= " AND";
+                    }
+                    query += " State = '" + state + "'";
+                }
+                if (city != null) {
+                    if (location != null || state != null) {
+                        query+= " AND";
+                    }
+                    query += " City = '" + city + "'";
+                }
+                if (zip.length() != 0) {
+                    if (location != null || state != null || city != null) {
+                        query+= " AND";
+                    }
+                    query+= " ZipCode = '" + zip + "'";
+                }
+                if (!flag.equals("None Selected")) {
+                    if (location != null || state != null || city != null ||
+                            zip.length() != 0) {
+                        query+= " AND";
+                    }
+                    if (flag.equals("Yes")) {
+                        flag = "1";
+                    } else if (flag.equals("No")){
+                        flag = "0";
+                    }
+                    query+= " Flag = '" + flag + "'";
+
+                }
+            }
+            //System.out.println(query);
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            Row temp;
+            ObservableList<Row> list = FXCollections.observableArrayList();
+           while(rs.next()) {
+               temp = new Row();
+               temp.setLocation(rs.getString("LocationName"));
+               temp.setState(rs.getString("State"));
+               temp.setCity(rs.getString("City"));
+               temp.setZip(rs.getString("ZipCode"));
+               temp.setFlag(rs.getString("Flag"));
+               list.add(temp);
+           }
+
+
+            locationCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getLocation());
+            });
+            cityCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getCity());
+            });
+            stateCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getState());
+            });
+            zipCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getZip());
+            });
+            flagCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getFlag());
+            });
+            table.setItems(list);
+
         }
-        /*Stage stage = (Stage) applyFilterButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();*/
+
     }
 
     @FXML
@@ -221,5 +327,59 @@ public class ViewPOIController {
                 .getResource("../view/OfficialHomeScreen.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    public class Row {
+        private String location;
+        private String state;
+        private String city;
+        private String zip;
+        String flag;
+        Object fromDate;
+        Object toFate;
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public void setZip(String zip) {
+            this.zip = zip;
+        }
+
+        public void setFlag(String flag) {
+            if (flag.equals("1")) {
+                this.flag = "True";
+            } else {
+                this.flag = "False";
+            }
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getZip() {
+            return zip;
+        }
+
+        public String getFlag() {
+            return flag;
+        }
     }
 }
