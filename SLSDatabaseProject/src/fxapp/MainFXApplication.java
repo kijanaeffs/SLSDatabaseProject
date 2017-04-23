@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class MainFXApplication extends Application {
@@ -53,14 +52,14 @@ public class MainFXApplication extends Application {
         } catch(Exception e) {
             System.err.println("Exception: " + e.getMessage());
         }
-
+        /*
         // mysql insert statement
         Statement st = conn.createStatement();
         st.executeUpdate("INSERT INTO USERS (EmailAddress, Username, Pass, UserType) "
                 +"VALUES ('mjohnson350@gatech.edu', 'mjohnson350', " +
                 "'passwurd', " +
                 "'Admin')");
-
+        */
         /*
         // mysql delete statement
         String query = "DELETE FROM USERS WHERE Username = ?";
