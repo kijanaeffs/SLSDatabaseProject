@@ -196,7 +196,6 @@ public class ViewPOIController {
     @FXML
     private void handleCityClicked() throws IOException {
         Object selState = stateBox.getValue();
-        //error message does not work yet
         if (selState == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No state selected");
@@ -219,9 +218,7 @@ public class ViewPOIController {
             String flag = flagCombo.getValue().toString();
             Object fromDate = fromDateField.getValue();
             Object toDate = toDateField.getValue();
-            /*if (flag.equals("None Selected")) {
-                flag = null;
-            }*/
+
             Object sqlFromDate = null;
             Object sqlToDate = null;
             if (fromDate != null) {
@@ -246,7 +243,7 @@ public class ViewPOIController {
             String query = "SELECT LocationName, City, State, ZipCode, Flag, " +
                     "DateFlagged FROM POI";
             if (location != null || city != null || state != null || zip
-                    .length() != 0 || !flag.equals("None Selected")) {
+                    .length() != 0 || !flag.equals("None Selected") || sqlFromDate != null) {
                 query+= " WHERE";
                 if (location != null) {
                     query += " LocationName = '" + location + "'";
@@ -282,6 +279,17 @@ public class ViewPOIController {
                     query+= " Flag = '" + flag + "'";
 
                 }
+
+                if (sqlFromDate != null) {
+                    if (location != null || state != null || city != null ||
+                            zip.length() != 0 || !flag.equals("None Selected")) {
+                        query+= " AND";
+                    }
+
+                    query+= " DateFlagged >= '" + sqlFromDate.toString() +
+                            "'" + " AND" +
+                            " DateFlagged <= '" + sqlToDate.toString() + "'";
+                }
             }
             //System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
@@ -295,6 +303,7 @@ public class ViewPOIController {
                temp.setCity(rs.getString("City"));
                temp.setZip(rs.getString("ZipCode"));
                temp.setFlag(rs.getString("Flag"));
+               temp.setDate(rs.getString("DateFlagged"));
                list.add(temp);
            }
 
@@ -314,6 +323,10 @@ public class ViewPOIController {
             flagCol.setCellValueFactory(r -> {
                 return new SimpleStringProperty(r.getValue().getFlag());
             });
+            dateCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getDate());
+            });
+
             table.setItems(list);
 
         }
@@ -363,8 +376,8 @@ public class ViewPOIController {
         private String city;
         private String zip;
         String flag;
-        Object fromDate;
-        Object toFate;
+        String date;
+
 
         public void setLocation(String location) {
             this.location = location;
@@ -390,6 +403,10 @@ public class ViewPOIController {
             }
         }
 
+        public void setDate(String date) {
+            this.date = date;
+        }
+
         public String getLocation() {
             return location;
         }
@@ -408,6 +425,10 @@ public class ViewPOIController {
 
         public String getFlag() {
             return flag;
+        }
+
+        public String getDate() {
+            return date;
         }
     }
 }
