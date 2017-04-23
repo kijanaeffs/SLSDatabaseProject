@@ -14,13 +14,13 @@ import java.io.IOException;
  */
 public class ViewPOIController {
     @FXML
-    private ComboBox locationBox;
+    private ComboBox<String> locationBox;
 
     @FXML
-    private ComboBox cityBox;
+    private ComboBox<String> cityBox;
 
     @FXML
-    private ComboBox stateBox;
+    private ComboBox<String> stateBox;
 
     @FXML
     private TextField zipField;

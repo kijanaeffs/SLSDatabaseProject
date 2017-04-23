@@ -19,10 +19,10 @@ public class AddPOILocationController {
     private TextField locationField;
 
     @FXML
-    private ComboBox cityBox;
+    private ComboBox<String> cityBox;
 
     @FXML
-    private ComboBox stateBox;
+    private ComboBox<String> stateBox;
 
     @FXML
     private TextField zipField;

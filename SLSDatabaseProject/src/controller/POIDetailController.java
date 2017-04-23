@@ -22,7 +22,7 @@ public class POIDetailController {
     private TextField flaggedField;
 
     @FXML
-    private ComboBox typeBox;
+    private ComboBox<String> typeBox;
 
     @FXML
     private TextField fromDataField;
