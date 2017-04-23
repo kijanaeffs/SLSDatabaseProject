@@ -51,20 +51,17 @@ public class AddDataPointController {
 
     private Connection conn = MainFXApplication.getConnection();
 
+    @FXML
     private void initialize() throws SQLException {
-        /*String queryD = "SELECT DataType FROM DATATYPE ORDER BY DataType";
+        String queryD = "SELECT DataType FROM DATATYPE ORDER BY DataType";
         PreparedStatement preparedStmt = conn.prepareStatement(queryD);
         ResultSet rsD = preparedStmt.executeQuery();
         List<String> dataTypeList = new ArrayList<String>();
         while(rsD.next()) {
             dataTypeList.add(rsD.getString("DataType"));
-        }*/
-        //ObservableList dataTypes = FXCollections.observableList(dataTypeList);
-        /*List<String> test = new ArrayList<String>();
-        test.add("A");
-        test.add("B");
-        ObservableList dataTypes = FXCollections.observableList(test);*/
-        dataTypeCombo.getItems().addAll("A");
+        }
+        ObservableList dataTypes = FXCollections.observableList(dataTypeList);
+        dataTypeCombo.setItems(dataTypes);
 
         String queryL = "SELECT LocationName FROM POI ORDER BY LocationName";
         PreparedStatement preparedStmt2 = conn.prepareStatement(queryL);
