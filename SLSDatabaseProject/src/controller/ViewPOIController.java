@@ -9,15 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 
-import javax.swing.table.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Kijana on 4/22/2017.
@@ -220,11 +217,32 @@ public class ViewPOIController {
             String city = cityBox.getValue();
             String zip = zipField.getText();
             String flag = flagCombo.getValue().toString();
+            Object fromDate = fromDateField.getValue();
+            Object toDate = toDateField.getValue();
             /*if (flag.equals("None Selected")) {
                 flag = null;
             }*/
-            Object fromDate = fromDateField.getValue();
-            Object toDate = toDateField.getValue();
+            Object sqlFromDate = null;
+            Object sqlToDate = null;
+            if (fromDate != null) {
+                String delim = "-";
+                String[] tokens = fromDate.toString().split(delim);
+                int year = Integer.parseInt(tokens[0]);
+                int month = Integer.parseInt(tokens[1]);
+                int day = Integer.parseInt(tokens[2]);
+                Calendar fromCal = Calendar.getInstance();
+                fromCal.set(year, month - 1, day, 0, 0, 0);
+                tokens = toDate.toString().split(delim);
+                year = Integer.parseInt(tokens[0]);
+                month = Integer.parseInt(tokens[1]);
+                day = Integer.parseInt(tokens[2]);
+                Calendar toCal = Calendar.getInstance();
+                toCal.set(year, month - 1, day, 0, 0, 0);
+                java.util.Date fDate = fromCal.getTime();
+                sqlFromDate = new java.sql.Timestamp(fDate.getTime());
+                Date tDate = toCal.getTime();
+                sqlToDate = new java.sql.Timestamp(tDate.getTime());
+            }
             String query = "SELECT LocationName, City, State, ZipCode, Flag, " +
                     "DateFlagged FROM POI";
             if (location != null || city != null || state != null || zip
@@ -313,9 +331,19 @@ public class ViewPOIController {
 
     @FXML
     private void handleViewPressed() throws IOException {
-        Stage stage = (Stage) viewButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
+        Row selected = table.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+        selected.getLocation();
+        selected.getFlag();
+
+        FXMLLoader loader = new FXMLLoader(getClass()
                 .getResource("../view/POIDetailScreen.fxml"));
+        Stage stage = (Stage) viewButton.getScene().getWindow();
+        Parent root = loader.load();
+        loader.<POIDetailController>getController()
+                .setup(location, flag);
         stage.setScene(new Scene(root));
         stage.show();
     }
