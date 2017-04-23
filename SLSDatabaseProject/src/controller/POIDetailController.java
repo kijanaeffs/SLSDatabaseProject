@@ -74,6 +74,11 @@ public class POIDetailController {
 
     }
 
+    private void setUp(String loc, String flg) {
+        locationField.setText(loc);
+        flaggedField.setText(flg);
+    }
+
     private int isInputValid() {
         Object fromDate = fromDateField.getValue();
         Object toDate = toDateField.getValue();
@@ -231,13 +236,17 @@ public class POIDetailController {
     @FXML
     private void handleApplyFilterPressed() throws IOException {
         if (isInputValid() == 1) {
+            Integer minNum = 0;
+            Integer maxNum = 0;
+            if (fromDataField.getText().length() != 0) {
+                minNum = Integer.parseInt(fromDataField.getText());
+            }
+            if (toDataField.getText().length() != 0) {
+                maxNum = Integer.parseInt(toDataField.getText());
+            }
 
+            String query = "";
         }
-        /*Stage stage = (Stage) applyFilterButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();*/
     }
 
     @FXML
