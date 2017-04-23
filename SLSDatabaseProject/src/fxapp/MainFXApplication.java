@@ -40,18 +40,8 @@ public class MainFXApplication extends Application {
         mainStage.show();
     }
     public static void main(String[] args) throws SQLException {
-        Connection conn = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://academic-mysql.cc.gatech.edu/cs4400_59",
-                    "cs4400_59",
-                    "aw3qI2fz");
-            if(!conn.isClosed())
-                System.out.println("Successfully connected to " +
-                        "MySQL server using TCP/IP...");
-        } catch(Exception e) {
-            System.err.println("Exception: " + e.getMessage());
-        }
+        Connection conn = getConnection();
+
         /*
         // mysql insert statement
         Statement st = conn.createStatement();
@@ -69,9 +59,25 @@ public class MainFXApplication extends Application {
         // execute the preparedstatement
         preparedStmt.execute();
         */
-        conn.close();
-
 
         launch(args);
+        conn.close();
+        System.out.print("Successfully closed connection to MySQL server.");
+    }
+
+    private static Connection getConnection() {
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn = DriverManager.getConnection("jdbc:mysql://academic-mysql.cc.gatech.edu/cs4400_59",
+                    "cs4400_59",
+                    "aw3qI2fz");
+            if(!conn.isClosed())
+                System.out.println("Successfully connected to " +
+                        "MySQL server using TCP/IP...");
+        } catch(Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
+        return conn;
     }
 }
