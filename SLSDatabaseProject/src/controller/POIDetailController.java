@@ -74,7 +74,7 @@ public class POIDetailController {
 
     }
 
-    private void setUp(String loc, String flg) {
+    public void setUp(String loc, String flg) {
         locationField.setText(loc);
         flaggedField.setText(flg);
     }
