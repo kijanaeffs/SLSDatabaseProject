@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.POIReportController">
+   <children>
+      <GridPane style="-fx-background-color: #F1F1F1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="544.0" minHeight="-Infinity" prefHeight="542.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="198.0" minHeight="-Infinity" prefHeight="108.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffc66b" height="150.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="5.0" width="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Text layoutX="500.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="POI Report">
+                     <font>
+                        <Font name="Arial" size="60.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <TableView fx:id="table" layoutX="8.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="locCol" prefWidth="231.0" text="POI Location" />
+                      <TableColumn fx:id="cityCol" minWidth="8.0" prefWidth="129.0" text="City" />
+                        <TableColumn fx:id="stateCol" prefWidth="140.0" text="State" />
+                        <TableColumn fx:id="moldMinCol" prefWidth="90.0" text="Mold Min" />
+                        <TableColumn fx:id="moldAvgCol" prefWidth="90.0" text="Mold Avg" />
+                        <TableColumn fx:id="moldMaxCol" prefWidth="90.0" text="Mold Max" />
+                        <TableColumn fx:id="aqMinCol" prefWidth="90.0" text="AQ Min" />
+                        <TableColumn fx:id="aqAvgCol" prefWidth="90.0" text="AQ Avg" />
+                        <TableColumn fx:id="aqMaxCol" prefWidth="90.0" text="AQ Max" />
+                        <TableColumn fx:id="pointsCol" prefWidth="130.0" text="# of data points" />
+                        <TableColumn fx:id="flagCol" prefWidth="89.0" text="Flagged?" />
+                    </columns>
+                  </TableView>
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+            </AnchorPane>
+            <Button fx:id="backButton" layoutX="310.0" layoutY="687.0" mnemonicParsing="false" onAction="#handleBackPressed" prefHeight="46.0" prefWidth="122.0" style="-fx-background-color: #000000; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: #000000;" text="Back" textFill="#ffc66b" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="589.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
