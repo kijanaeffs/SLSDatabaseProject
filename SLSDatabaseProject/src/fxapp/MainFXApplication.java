@@ -42,25 +42,6 @@ public class MainFXApplication extends Application {
     }
     public static void main(String[] args) throws SQLException {
 
-
-        /*
-        // mysql insert statement
-        Statement st = conn.createStatement();
-        st.executeUpdate("INSERT INTO USERS (EmailAddress, Username, Pass, UserType) "
-                +"VALUES ('mjohnson350@gatech.edu', 'mjohnson350', " +
-                "'passwurd', " +
-                "'Admin')");
-        */
-        /*
-        // mysql delete statement
-        String query = "DELETE FROM USERS WHERE Username = ?";
-        PreparedStatement preparedStmt = conn.prepareStatement(query);
-        preparedStmt.setString(1, "Testing");
-
-        // execute the preparedstatement
-        preparedStmt.execute();
-        */
-
         launch(args);
         conn.close();
         System.out.print("Successfully closed connection to MySQL server.");

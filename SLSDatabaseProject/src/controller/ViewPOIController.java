@@ -166,17 +166,6 @@ public class ViewPOIController {
         alert.showAndWait();
     }
 
-    /*@FXML
-    private void handleLocationPicked() throws SQLException {
-        String locSel = locationBox.getValue().toString();
-        String queryL = "SELECT DISTINCT State FROM CITYSTATE WHERE Location " +
-                "= ? ORDER BY Location";
-        PreparedStatement preparedStatement = conn.prepareStatement(queryL);
-        preparedStatement.setString(1, locSel);
-        ResultSet rsL = preparedStatement.executeQuery();
-        rsL.next();
-        stateBox.getItems().add(rsL.getString("State"));
-    }*/
 
     @FXML
     private void handleStatePicked() throws SQLException {

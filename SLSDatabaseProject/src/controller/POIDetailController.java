@@ -187,13 +187,6 @@ public class POIDetailController {
             return 0;
         }
         if (fromDate != null && toDate != null) {
-            /*String delim = ":";
-            String[] tokens1 = fromTime.split(delim);
-            String [] tokens2 = toTime.split(delim);
-            fromHours = Integer.parseInt(tokens1[0]);
-            fromMinutes = Integer.parseInt(tokens1[1]);
-            toHours = Integer.parseInt(tokens2[0]);
-            toMinutes = Integer.parseInt(tokens2[1]);*/
             String delim = "-";
             String[] tokens = fromDate.toString().split(delim);
             int year = Integer.parseInt(tokens[0]);
@@ -325,7 +318,7 @@ public class POIDetailController {
 
             }
 
-            System.out.println(query);
+            //System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, loc);
             ps.setString(2, "1");
