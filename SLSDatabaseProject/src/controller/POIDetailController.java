@@ -317,6 +317,13 @@ public class POIDetailController {
                 query+= " AND";
                 query+= " DataValue <= '" + maxNum + "'";
             }
+            if (sqlToDate != null) {
+                query+= " AND";
+                query+= " DT >= '" + sqlFromDate.toString() + "'";
+                query+= " AND";
+                query+= " DT <= '" + sqlToDate.toString() + "'";
+
+            }
 
             System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
