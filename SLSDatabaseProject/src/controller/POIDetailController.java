@@ -1,6 +1,7 @@
 package controller;
 
 import fxapp.MainFXApplication;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -57,7 +58,23 @@ public class POIDetailController {
     @FXML
     private Button flagButton;
 
+    @FXML
+    private TableView<Row> table;
+
+    @FXML
+    private TableColumn<Row, String> dtCol;
+
+    @FXML
+    private TableColumn<Row, String> valueCol;
+
+    @FXML
+    private TableColumn<Row, String> typeCol;
+
     private Connection conn = MainFXApplication.getConnection();
+
+    private String initLocation;
+
+    private String initFlag;
 
     @FXML
     private void initialize() throws SQLException {
@@ -71,12 +88,16 @@ public class POIDetailController {
         }
         ObservableList dataTypes = FXCollections.observableList(dataTypeList);
         typeBox.setItems(dataTypes);
+        typeBox.getItems().add(0, "None Selected");
+        typeBox.setValue("None Selected");
 
     }
 
     public void setUp(String loc, String flg) {
         locationField.setText(loc);
         flaggedField.setText(flg);
+        initFlag = flg;
+        initLocation = loc;
     }
 
     private int isInputValid() {
@@ -234,7 +255,8 @@ public class POIDetailController {
     }
 
     @FXML
-    private void handleApplyFilterPressed() throws IOException {
+    private void handleApplyFilterPressed() throws SQLException {
+        String type = typeBox.getValue().toString();
         if (isInputValid() == 1) {
             Integer minNum = 0;
             Integer maxNum = 0;
@@ -245,17 +267,78 @@ public class POIDetailController {
                 maxNum = Integer.parseInt(toDataField.getText());
             }
 
-            String query = "";
+            String loc = locationField.getText();
+
+            String query = "SELECT DT, LocationName, DataValue, DataType FROM" +
+                    " DATAPOINT WHERE LocationName = ? AND Accepted = ?";
+
+            if (!type.equals("None Selected")) {
+                query+= " AND";
+                query+= " DataType = '" + type + "'";
+            }
+            if (fromDataField.getText().length() != 0) {
+                query+= " AND";
+                query+= " DataValue >= '" + minNum + "'";
+                query+= " AND";
+                query+= " DataValue <= '" + maxNum + "'";
+            }
+
+            System.out.println(query);
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, loc);
+            ps.setString(2, "1");
+            ResultSet rs = ps.executeQuery();
+            ObservableList<Row> list = FXCollections.observableArrayList();
+            Row temp;
+
+            String location;
+            String dt;
+            String dvalue;
+            String dtype;
+
+            while (rs.next()) {
+                temp = new Row();;
+                location = rs.getString("LocationName");
+                dt = rs.getString("DT");
+                dvalue = rs.getString("DataValue");
+                dtype = rs.getString("DataType");
+
+                temp.setLoc(location);
+                temp.setDt(dt);
+                temp.setType(dtype);
+                temp.setValue(dvalue);
+                list.add(temp);
+            }
+
+
+            typeCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getType());
+            });
+            valueCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getvalue());
+            });
+            dtCol.setCellValueFactory(r -> {
+                return new SimpleStringProperty(r.getValue().getDt());
+            });
+            table.setItems(list);
         }
     }
 
     @FXML
     private void handleResetFilterPressed() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("../view/POIDetailScreen.fxml"));
         Stage stage = (Stage) resetFilterButton.getScene().getWindow();
+        Parent root = loader.load();
+        loader.<POIDetailController>getController()
+                .setUp(initLocation, initFlag);
+        stage.setScene(new Scene(root));
+        stage.show();
+        /*Stage stage = (Stage) resetFilterButton.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass()
                 .getResource("../view/POIDetailScreen.fxml"));
         stage.setScene(new Scene(root));
-        stage.show();
+        stage.show();*/
     }
 
     @FXML
@@ -274,5 +357,42 @@ public class POIDetailController {
                 .getResource("../view/ViewPOIScreen.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    public class Row {
+        String dt;
+        String loc;
+        String value;
+        String type;
+
+        public String getDt() {
+            return dt;
+        }
+        public String getLoc() {
+            return loc;
+        }
+        public String getvalue() {
+            return value;
+        }
+        public String getType() {
+            return type;
+        }
+
+        public void setDt(String dt) {
+            this.dt = dt;
+        }
+
+        public void setLoc(String loc) {
+            this.loc = loc;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
     }
 }
