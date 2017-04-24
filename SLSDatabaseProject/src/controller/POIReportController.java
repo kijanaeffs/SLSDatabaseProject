@@ -73,101 +73,26 @@ public class POIReportController {
     private Connection conn = MainFXApplication.getConnection();
     @FXML
     private void initialize() throws SQLException {
-        String query = "SELECT LocationName, City, State, Flag FROM " +
-                "POI ORDER BY LocationName";
+        String query = "SELECT * FROM POIREPORT ORDER BY LocationName";
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         ResultSet rs = preparedStmt.executeQuery();
 
-        String query2;
-        Integer aqMin;
-        Integer aqAvg;
-        Integer aqMax;
-        Integer aqSum;
-        Integer aqNum;
-        Integer moldMin;
-        Integer moldAvg;
-        Integer moldMax;
-        Integer moldSum;
-        Integer moldNum;
-        Integer points;
-
+        Row temp;
         ObservableList<Row> list = FXCollections.observableArrayList();
         while (rs.next()) {
-            aqMin = Integer.MAX_VALUE;
-            aqAvg = 0;
-            aqMax = Integer.MIN_VALUE;
-            aqSum = 0;
-            aqNum = 0;
-            moldMin = Integer.MAX_VALUE;
-            moldAvg = 0;
-            moldMax = Integer.MIN_VALUE;
-            moldSum = 0;
-            moldNum = 0;
-            points = 0;
-
-            String location = rs.getString("LocationName");
-            String city = rs.getString("City");
-            String state = rs.getString("State");
-            String flag = rs.getString("Flag");
-
-            query2 = "SELECT DataValue, DataType FROM DATAPOINT WHERE " +
-                    "LocationName = ? AND Accepted = TRUE";
-            PreparedStatement preparedstmt2 = conn.prepareStatement(query2);
-            preparedstmt2.setString(1, location);
-            ResultSet rs2 = preparedstmt2.executeQuery();
-            while(rs2.next()) {
-                String type = rs2.getString("DataType");
-                Integer value = rs2.getInt("DataValue");
-                if (type.equals("Mold")) {
-                    if (value < moldMin) {
-                        moldMin = value;
-                    }
-                    if (value > moldMax) {
-                        moldMax = value;
-                    }
-                    moldNum++;
-                    moldSum+= value;
-                } else {
-                    if (value < aqMin) {
-                        aqMin = value;
-                    }
-                    if (value > aqMax) {
-                        aqMax = value;
-                    }
-                    aqNum++;
-                    aqSum+= value;
-                }
-            }
-            if (moldNum == 0) {
-                moldMin = 0;
-                moldAvg = 0;
-                moldMax = 0;
-            } else {
-                moldAvg = moldSum / moldNum;
-            }
-            if (aqNum == 0) {
-                aqMin = 0;
-                aqAvg = 0;
-                aqMax = 0;
-            } else {
-                aqAvg = aqSum / aqNum;
-            }
-            points = moldNum + aqNum;
-
-            Row temp = new Row();
-            temp.setLoc(location);
-            temp.setCty(city);
-            temp.setSt(state);
-            temp.setFlg(flag);
-            temp.setMoldMin(moldMin);
-            temp.setMoldAvg(moldAvg);
-            temp.setMoldMax(moldMax);
-            temp.setAqMin(aqMin);
-            temp.setAqAvg(aqAvg);
-            temp.setAqMax(aqMax);
-            temp.setPoints(points);
+            temp = new Row();
+            temp.setLoc(rs.getString("LocationName"));
+            temp.setCty(rs.getString("City"));
+            temp.setSt(rs.getString("State"));
+            temp.setMoldMin(rs.getInt("MoldMin"));
+            temp.setMoldAvg(rs.getDouble("MoldAvg"));
+            temp.setMoldMax(rs.getInt("MoldMax"));
+            temp.setAqMin(rs.getInt("MinAQ"));
+            temp.setAqAvg(rs.getDouble("AvgAQ"));
+            temp.setAqMax(rs.getInt("MaxAQ"));
+            temp.setPoints(rs.getInt("NumPoints"));
+            temp.setFlg(rs.getInt("Flag"));
             list.add(temp);
-
         }
 
 
@@ -181,13 +106,14 @@ public class POIReportController {
             return new SimpleStringProperty(r.getValue().getSt());
         });
         flagCol.setCellValueFactory(r -> {
-            return new SimpleStringProperty(r.getValue().getFlg());
+            return new SimpleStringProperty(Integer.toString(r.getValue().getFlg
+                    ()));
         });
         moldMinCol.setCellValueFactory(r -> {
             return new SimpleObjectProperty<Integer>(r.getValue().getMoldMin());
         });
         moldAvgCol.setCellValueFactory(r -> {
-            return new SimpleObjectProperty<Integer>(r.getValue().getMoldAvg());
+            return new SimpleObjectProperty(r.getValue().getMoldAvg());
         });
         moldMaxCol.setCellValueFactory(r -> {
             return new SimpleObjectProperty<Integer>(r.getValue().getMoldMax());
@@ -196,7 +122,7 @@ public class POIReportController {
             return new SimpleObjectProperty<Integer>(r.getValue().getAqMin());
         });
         aqAvgCol.setCellValueFactory(r -> {
-            return new SimpleObjectProperty<Integer>(r.getValue().getAqAvg());
+            return new SimpleObjectProperty(r.getValue().getAqAvg());
         });
         aqMaxCol.setCellValueFactory(r -> {
             return new SimpleObjectProperty<Integer>(r.getValue().getAqMax());
@@ -213,12 +139,12 @@ public class POIReportController {
         private String loc;
         private String st;
         private String cty;
-        private String flg;
+        private Integer flg;
         private Integer moldMin;
-        private Integer moldAvg;
+        private Double moldAvg;
         private Integer moldMax;
         private Integer aqMin;
-        private Integer aqAvg;
+        private Double aqAvg;
         private Integer aqMax;
         private Integer points;
 
@@ -231,13 +157,13 @@ public class POIReportController {
         public void setCty(String cty) {
             this.cty = cty;
         }
-        public void setFlg(String flg) {
+        public void setFlg(Integer flg) {
             this.flg = flg;
         }
         public void setMoldMin(Integer moldMin) {
             this.moldMin = moldMin;
         }
-        public void setMoldAvg(Integer moldAvg) {
+        public void setMoldAvg(Double moldAvg) {
             this.moldAvg = moldAvg;
         }
         public void setMoldMax(Integer moldMax) {
@@ -246,7 +172,7 @@ public class POIReportController {
         public void setAqMin(Integer aqMin) {
             this.aqMin = aqMin;
         }
-        public void setAqAvg(Integer aqAvg) {
+        public void setAqAvg(Double aqAvg) {
             this.aqAvg = aqAvg;
         }
         public void setAqMax(Integer aqMax) {
@@ -266,7 +192,7 @@ public class POIReportController {
         public String getCty() {
             return cty;
         }
-        public String getFlg() {
+        public Integer getFlg() {
             return flg;
         }
 
@@ -274,7 +200,7 @@ public class POIReportController {
             return moldMin;
         }
 
-        public Integer getMoldAvg() {
+        public Double getMoldAvg() {
             return moldAvg;
         }
 
@@ -286,7 +212,7 @@ public class POIReportController {
             return aqMin;
         }
 
-        public Integer getAqAvg() {
+        public Double getAqAvg() {
             return aqAvg;
         }
 
