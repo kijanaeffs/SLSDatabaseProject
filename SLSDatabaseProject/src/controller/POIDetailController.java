@@ -13,9 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Kijana on 4/22/2017.
@@ -94,10 +92,14 @@ public class POIDetailController {
     }
 
     public void setUp(String loc, String flg) {
-        locationField.setText(loc);
-        flaggedField.setText(flg);
-        initFlag = flg;
+        if (flg.equals("True") || flg.equals("Yes")) {
+            initFlag = "Yes";
+        } else {
+            initFlag = "No";
+        }
         initLocation = loc;
+        locationField.setText(initLocation);
+        flaggedField.setText(initFlag);
     }
 
     private int isInputValid() {
@@ -268,6 +270,39 @@ public class POIDetailController {
             }
 
             String loc = locationField.getText();
+            Object fromDate = fromDateField.getValue();
+            Object toDate = toDateField.getValue();
+            String fromTime = fromTimeField.getText();
+            String toTime = toTimeField.getText();
+            Object sqlFromDate = null;
+            Object sqlToDate = null;
+            if (fromDate != null) {
+                String delim = ":";
+                String[] tokens = fromTime.split(delim);
+                String [] tokens2 = toTime.split(delim);
+                int fromHours = Integer.parseInt(tokens[0]);
+                int fromMinutes = Integer.parseInt(tokens[1]);
+                int toHours = Integer.parseInt(tokens2[0]);
+                int toMinutes = Integer.parseInt(tokens2[1]);
+                delim = "-";
+                tokens = fromDate.toString().split(delim);
+                int year = Integer.parseInt(tokens[0]);
+                int month = Integer.parseInt(tokens[1]);
+                int day = Integer.parseInt(tokens[2]);
+                Calendar fromCal = Calendar.getInstance();
+                fromCal.set(year, month - 1, day, fromHours, fromMinutes, 0);
+                tokens = toDate.toString().split(delim);
+                year = Integer.parseInt(tokens[0]);
+                month = Integer.parseInt(tokens[1]);
+                day = Integer.parseInt(tokens[2]);
+                Calendar toCal = Calendar.getInstance();
+                toCal.set(year, month - 1, day, toHours, toMinutes, 0);
+                java.util.Date fDate = fromCal.getTime();
+                sqlFromDate = new java.sql.Timestamp(fDate.getTime());
+                java.util.Date tDate = toCal.getTime();
+                sqlToDate = new java.sql.Timestamp(tDate.getTime());
+            }
+
 
             String query = "SELECT DT, LocationName, DataValue, DataType FROM" +
                     " DATAPOINT WHERE LocationName = ? AND Accepted = ?";
@@ -334,20 +369,31 @@ public class POIDetailController {
                 .setUp(initLocation, initFlag);
         stage.setScene(new Scene(root));
         stage.show();
-        /*Stage stage = (Stage) resetFilterButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/POIDetailScreen.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();*/
     }
 
     @FXML
-    private void handleFlagPressed() throws IOException {
-        /*Stage stage = (Stage) flagButton.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass()
-                .getResource("../view/LoginScreen.fxml"));
+    private void handleFlagPressed() throws IOException, SQLException {
+        String query;
+        if (initFlag.equals("No")) {
+            query = "UPDATE POI SET Flag = TRUE, DateFlagged = NOW() " +
+                    "WHERE LocationName = ?";
+            initFlag = "Yes";
+        } else {
+            query = "UPDATE POI SET Flag = FALSE, DateFlagged = NULL " +
+                    "WHERE LocationName = ?";
+            initFlag = "No";
+        }
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, initLocation);
+        preparedStmt.execute();
+        FXMLLoader loader = new FXMLLoader(getClass()
+                .getResource("../view/POIDetailScreen.fxml"));
+        Stage stage = (Stage) flagButton.getScene().getWindow();
+        Parent root = loader.load();
+        loader.<POIDetailController>getController()
+                .setUp(initLocation, initFlag);
         stage.setScene(new Scene(root));
-        stage.show();*/
+        stage.show();
     }
 
     @FXML
